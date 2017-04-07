@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title></title>
+    <script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script src="/static/vertx-eventbus.js"></script>
+</head>
+
+<style>
+  .time {
+    font-size: 20pt;
+  }
+</style>
+
+<body>
+
+<div class="time">Latest server time: <span id="theTime"></span></div>
+<br>
+
+
+<script>
+  var eb = new EventBus("http://localhost:8080/eventbus");
+
+  eb.onopen = function () {
+    eb.registerHandler("time-feed", function (err, msg) {
+      document.getElementById('theTime').innerText = msg.body;
+    })
+  }
+
+</script>
+
+</body>
+</html>
